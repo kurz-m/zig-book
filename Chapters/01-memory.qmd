@@ -163,7 +163,7 @@ establish the main difference between these two types of memory.
 
 In essence, the stack memory is normally used to store values whose length is fixed and known
 at compile-time. In contrast, the heap memory is a *dynamic* type of memory space, meaning that, it is
-used to store values whose length might grow during the execution (runtime) of your program [@jenny2022].
+used to store values whose size might grow during the execution (runtime) of your program [@jenny2022].
 
 Lengths that grow during runtime are intrinsically associated with "runtime known" type of values.
 In other words, if you have an object whose length might grow during runtime, then, the length
@@ -178,7 +178,7 @@ a dynamic memory space, which can grow or shrink to fit the size of your objects
 
 The stack is a type of memory that uses the power of the *stack data structure*, hence the name. 
 A "stack" is a type of *data structure* that uses a "last in, first out" (LIFO) mechanism to store the values
-you give it to. I imagine you are familiar with this data structure.
+you give to it. I imagine you are familiar with this data structure.
 But, if you are not, the [Wikipedia page](https://en.wikipedia.org/wiki/Stack_(abstract_data_type))[^wiki-stack]
 , or, the [Geeks For Geeks page](https://www.geeksforgeeks.org/stack-data-structure/)[^geek-stack] are both
 excellent and easy resources to fully understand how this data structure works.
@@ -275,7 +275,7 @@ Think about that for a second. If all local objects in the stack are destroyed a
 would you even consider returning a pointer to one of these objects? This pointer is at best,
 invalid, or, more likely, "undefined".
 
-Conclusion, is totally fine to write a function that returns the local object
+Conclusion, it is totally fine to write a function that returns the local object
 itself as result, because then, you return the value of that object as the result.
 But, if this local object is stored in the stack, you should never write a function
 that returns a pointer to this local object. Because the memory address pointed by the pointer
@@ -326,17 +326,17 @@ is destroyed at the end of its scope.
 
 But what if you really need to use this local object in some way after your function returns?
 How can you do this? The answer is: "in the same you would do if this was a C or C++ program. By returning
-an address to an object stored in the heap". The heap memory have a much more flexible lifecycle,
+an address to an object stored in the heap". The heap memory has a much more flexible lifecycle,
 and allows you to get a valid pointer to a local object of a function that already returned
 from its scope.
 
 
 ### Heap {#sec-heap}
 
-One important limitation of the stack, is that, only objects whose length/size is known at compile-time can be
+One important limitation of the stack, is that, only objects whose size is known at compile-time can be
 stored in it. In contrast, the heap is a much more dynamic
 (and flexible) type of memory. It is the perfect type of memory to use
-on objects whose size/length might grow during the execution of your program.
+on objects whose size might grow during the execution of your program.
 
 Virtually any application that behaves as a server is a classic use case of the heap.
 A HTTP server, a SSH server, a DNS server, a LSP server, ... any type of server.
@@ -349,19 +349,19 @@ or, 5 thousand requests, or, it could also be zero requests.
 The server needs to have the ability to allocate and manage its memory according to how many requests it receives.
 
 Another key difference between the stack and the heap, is that the heap is a type
-of memory that you, the programmer, have complete control over. This makes the heap a
-more flexible type of memory, but it also makes it harder to work with it. Because you,
-the programmer, is responsible for managing everything related to it. Including where the memory is allocated,
+of memory that you, have complete control over. This makes the heap a
+more flexible type of memory, but it also makes it harder to work with it. Because you, 
+is responsible for managing everything related to it. Including where the memory is allocated,
 how much memory is allocated, and where this memory is freed.
 
 > Unlike stack memory, heap memory is allocated explicitly by programmers and it won’t be deallocated until it is explicitly freed [@jenny2022].
 
-To store an object in the heap, you, the programmer, needs to explicitly tells Zig to do so,
-by using an allocator to allocate some space in the heap. At @sec-allocators, I will present how you can use allocators to allocate memory
+To store an object in the heap, you, needs to explicitly tells Zig to do so,
+by using an allocator to allocate some space in the heap. in @sec-allocators, I will present how you can use allocators to allocate memory
 in Zig.
 
 ::: {.callout-important}
-Every memory you allocate in the heap needs to be explicitly freed by you, the programmer.
+Every memory you allocate in the heap needs to be explicitly freed by you.
 :::
 
 The majority of allocators in Zig do allocate memory on the heap. But some exceptions to this rule are
@@ -382,7 +382,7 @@ object you declare is stored:
 
 1. every literal value (such as `"this is string"`, `10`, or `true`) is stored in the global data section.
 1. every constant object (`const`) whose value **is known at compile-time** is also stored in the global data section.
-1. every object (constant or not) whose length/size **is known at compile-time** is stored in the stack space for the current scope.
+1. every object (constant or not) whose size **is known at compile-time** is stored in the stack space for the current scope.
 1. if an object is created with the method `alloc()` or `create()` of an allocator object, this object is stored in the memory space used by this particular allocator object. Most of allocators available in Zig use the heap memory, so, this object is likely stored in the heap (`FixedBufferAllocator()` is an exception to that).
 1. the heap can only be accessed through allocators. If your object was not created through the `alloc()` or `create()` methods of an allocator object, then, he is most certainly not an object stored in the heap.
 
@@ -411,7 +411,7 @@ write a new string using format specifiers. So, this function is, for example, v
 In order to write such new string, the `allocPrint()` function needs to allocate some memory to store the
 output string.
 
-That is why, the first argument of this function is an allocator object that you, the user/programmer, gives
+That is why, the first argument of this function is an allocator object that you, gives
 as input to the function. In the example below, I am using the `GeneralPurposeAllocator()` as my allocator
 object. But I could easily use any other type of allocator object from the Zig standard library.
 
@@ -432,7 +432,7 @@ try stdout.print("{s}\n", .{output});
 
 You get a lot of control
 over where and how much memory this function can allocate. Because it is you,
-the user/programmer, that provides the allocator for the function to use.
+that provides the allocator for the function to use.
 This makes "total control" over memory management easier to achieve in Zig.
 
 ### What are allocators?
@@ -454,18 +454,18 @@ but you don't need to change the function calls to the methods that do the memor
 
 ### Why you need an allocator?
 
-As we described at @sec-stack, everytime you make a function call in Zig,
+As we described in @sec-stack, everytime you make a function call in Zig,
 a space in the stack is reserved for this function call. But the stack
 have a key limitation which is: every object stored in the stack have a
-known fixed length.
+known fixed size.
 
-But in reality, there are two very common instances where this "fixed length limitation" of the stack is a deal braker:
+But in reality, there are two very common instances where this "fixed size limitation" of the stack is a deal braker:
 
 1. the objects that you create inside your function might grow in size during the execution of the function.
 1. sometimes, it is impossible to know upfront how many inputs you will receive, or how big this input will be.
 
 Also, there is another instance where you might want to use an allocator, which is when you want to write a function that returns a pointer
-to a local object. As I described at @sec-stack, you cannot do that if this local object is stored in the
+to a local object. As I described in @sec-stack, you cannot do that if this local object is stored in the
 stack. However, if this object is stored in the heap, then, you can return a pointer to this object at the
 end of the function. Because you (the programmer) control the lifetime of any heap memory that you allocate. You decide
 when this memory get's destroyed/freed.
@@ -621,7 +621,7 @@ you can create an array to store any type of value you want. Next, on the second
 define the size of the allocated array, by specifying how much elements
 this array will contain. In the case below, we are allocating an array of 50 elements.
 
-At @sec-zig-strings we described that strings in Zig are simply arrays of characters.
+in @sec-zig-strings we described that strings in Zig are simply arrays of characters.
 Each character is represented by an `u8` value. So, this means that the array that
 was allocated in the object `input` is capable of storing a string that is
 50-characters long.
@@ -654,12 +654,12 @@ pub fn main() !void {
 }
 ```
 
-Also, notice that in this example, we use the `defer` keyword (which I described at @sec-defer) to run a small
+Also, notice that in this example, we use the `defer` keyword (which I described in @sec-defer) to run a small
 piece of code at the end of the current scope, which is the expression `allocator.free(input)`.
 When you execute this expression, the allocator will free the memory that it allocated
 for the `input` object.
 
-We have talked about this at @sec-heap. You **should always** explicitly free any memory that you allocate
+We have talked about this in @sec-heap. You **should always** explicitly free any memory that you allocate
 using an allocator! You do that by using the `free()` method of the same allocator object you
 used to allocate this memory. The `defer` keyword is used in this example only to help us execute
 this free operation at the end of the current scope.
