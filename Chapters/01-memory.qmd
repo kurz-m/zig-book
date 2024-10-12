@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 
 In this chapter, we will talk about memory. How does Zig controls memory? What
-common tools are used? Are there any important aspect that makes memory
+common tools are used? Are there any important aspects that makes memory
 different/special in Zig? You will find the answers here.
 
 Computers fundamentally rely on memory to function. This memory acts as a temporary storage
@@ -55,17 +55,17 @@ When you write a program in Zig, the values of some of the objects that you writ
 at compile time*. Meaning that, when you compile your Zig source code, during the compilation process,
 the `zig` compiler can figure it out what is the exact value of a particular object
 that exists in your source code.
-Knowing the length (or the size) of each object is also important. So the length (or the size) of each object that you write in your program is,
+Knowing the size of each object is also important. So the size of each object that you write in your program is,
 in some cases, *known at compile time*.
 
-The `zig` compiler cares more about knowing the length (or the size) of a particular object
+The `zig` compiler cares more about knowing the size of a particular object
 , than to know its actual value. But, if the `zig` compiler knows the value of the object, then, it
 automatically knows the size of this object. Because it can simply calculate the
 size of the object by looking at the size of the value.
 
 Therefore, the priority for the `zig` compiler is to discover the size of each object in your source code.
 If the value of the object in question is known at compile-time, then, the `zig` compiler
-automatically knows the size/length of this object. But if the value of this object is not
+automatically knows the size of this object. But if the value of this object is not
 known at compile-time, then, the size of this object is only known at compile-time if,
 and only if, the type of this object have a known fixed size.
 
@@ -75,16 +75,16 @@ fixed size. Because this array can have any size at runtime
 (i.e. it can be an array of 2 elements, or 50 elements, or 1 thousand elements, etc.).
 
 For example, a string object, which internally is an array of constant u8 values (`[]const u8`)
-have a variable size. It can be a string object with 100 or 500 characters in it. If we do not
+has a variable size. It can be a string object with 100 or 500 characters in it. If we do not
 know at compile-time, which exact string will be stored inside this string object, then, we cannot calculate
 the size of this string object at compile-time. So, any type, or any struct declaration that you make, that
 includes a string data member that do not have an explicit fixed size, makes this type, or this
 new struct that you are declaring, a type that do not have a known fixed size at compile-time.
 
 In contrast, if the type or this struct that you are declaring, includes a data member that is an array,
-but this array have a known fixed size, like `[60]u8` (which declares an array of 60 `u8` values), then,
+but this array has a known fixed size, like `[60]u8` (which declares an array of 60 `u8` values), then,
 this type, or, this struct that you are declaring, becomes a type with a known fixed size at compile-time.
-And because of that, in this case, the `zig` compiler do not need to known at compile-time the exact value of
+And because of that, the `zig` compiler does not need to known at compile-time the exact value of
 any object of this type. Since the compiler can find the necessary size to store this object by
 looking at the size of its type.
 
@@ -93,8 +93,8 @@ Let's look at an example. In the source code below, we have two constant objects
 Because the values of these particular objects are written down, in the source code itself (`"Pedro"`
 and the number sequence from 1 to 4), the `zig` compiler can easily discover the values of these constant
 objects (`name` and `array`) during the compilation process.
-This is what "known at compile time" means. It refers to any object that you have in your Zig source code
-whose value can be identified at compile time.
+This is what "known at compile-time" means. It refers to any object that you have in your Zig source code
+whose value can be identified at compile-time.
 
 
 ```{zig}
@@ -117,10 +117,10 @@ argument depends on the value that you assign to this particular argument,
 when you call the function.
 
 For example, the function `input_length()` contains an argument named `input`, which is an array of constant `u8` integers (`[]const u8`).
-Is impossible to know at compile time the value of this particular argument. And it also is impossible to know the size/length
+Is impossible to know at compile time the value of this particular argument. And it also is impossible to know the size
 of this particular argument. Because it is an array that do not have a fixed size specified explicitly in the argument type annotation.
 
-So, we know that this `input` argument will be an array of `u8` integers. But we do not know at compile-time, its value, and neither his size.
+So, we know that this `input` argument will be an array of `u8` integers. But we do not know at compile-time, its value, and neither its size.
 This information is known only at runtime, which is the period of time when you program is executed.
 As a consequence, the value of the expression `input.len` is also known only at runtime.
 This is an intrinsic characteristic of any function. Just remember that the value of function arguments is usually not "compile-time known".
@@ -128,7 +128,7 @@ This is an intrinsic characteristic of any function. Just remember that the valu
 However, as I mentioned earlier, what really matters to the compiler is to know the size of the object
 at compile-time, and not necessarily its value. So, although we don't know the value of the object `n`, which is the result of the expression
 `input.len`, at compile-time, we do know its size. Because the expression `input.len` always return a value of type `usize`,
-and the type `usize` have a known fixed size.
+and the type `usize` has a known fixed size.
 
 
 
