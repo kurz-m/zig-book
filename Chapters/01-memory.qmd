@@ -135,7 +135,7 @@ and the type `usize` has a known fixed size.
 ### Global data register
 
 The global data register is a specific section of the executable of your Zig program, that is responsible
-for storing any value that is known at compile time.
+for storing any value that is known at compile-time.
 
 Every constant object whose value is known at compile time that you declare in your source code,
 is stored in the global data register. Also, every literal value that you write in your source code,
@@ -159,7 +159,7 @@ each other. This is a common mistake that beginners have, when seeing "x vs y" s
 tabloid headlines. These two types of memory are actually complementary to each other.
 So, in almost every Zig program that you ever write, you will likely use a combination of both.
 I will describe each memory space in detail over the next sections. But for now, I just want to
-stablish the main difference between these two types of memory.
+establish the main difference between these two types of memory.
 
 In essence, the stack memory is normally used to store values whose length is fixed and known
 at compile time. In contrast, the heap memory is a *dynamic* type of memory space, meaning that, it is
