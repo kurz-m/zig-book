@@ -52,11 +52,11 @@ at the value of this particular object. More specifically, by investigating if t
 known at "compile-time" or at "runtime".
 
 When you write a program in Zig, the values of some of the objects that you write in your program are *known
-at compile time*. Meaning that, when you compile your Zig source code, during the compilation process,
+at compile-time*. Meaning that, when you compile your Zig source code, during the compilation process,
 the `zig` compiler can figure it out what is the exact value of a particular object
 that exists in your source code.
 Knowing the size of each object is also important. So the size of each object that you write in your program is,
-in some cases, *known at compile time*.
+in some cases, *known at compile-time*.
 
 The `zig` compiler cares more about knowing the size of a particular object
 , than to know its actual value. But, if the `zig` compiler knows the value of the object, then, it
@@ -111,13 +111,13 @@ fn input_length(input: []const u8) usize {
 }
 ```
 
-The other side of the spectrum are objects whose values are not known at compile time.
+The other side of the spectrum are objects whose values are not known at compile-time.
 Function arguments are a classic example of this. Because the value of each function
 argument depends on the value that you assign to this particular argument,
 when you call the function.
 
 For example, the function `input_length()` contains an argument named `input`, which is an array of constant `u8` integers (`[]const u8`).
-Is impossible to know at compile time the value of this particular argument. And it also is impossible to know the size
+Is impossible to know at compile-time the value of this particular argument. And it also is impossible to know the size
 of this particular argument. Because it is an array that do not have a fixed size specified explicitly in the argument type annotation.
 
 So, we know that this `input` argument will be an array of `u8` integers. But we do not know at compile-time, its value, and neither its size.
@@ -137,7 +137,7 @@ and the type `usize` has a known fixed size.
 The global data register is a specific section of the executable of your Zig program, that is responsible
 for storing any value that is known at compile-time.
 
-Every constant object whose value is known at compile time that you declare in your source code,
+Every constant object whose value is known at compile-time that you declare in your source code,
 is stored in the global data register. Also, every literal value that you write in your source code,
 such as the string `"this is a string"`, or the integer `10`, or a boolean value such as `true`,
 is also stored in the global data register.
@@ -162,12 +162,12 @@ I will describe each memory space in detail over the next sections. But for now,
 establish the main difference between these two types of memory.
 
 In essence, the stack memory is normally used to store values whose length is fixed and known
-at compile time. In contrast, the heap memory is a *dynamic* type of memory space, meaning that, it is
+at compile-time. In contrast, the heap memory is a *dynamic* type of memory space, meaning that, it is
 used to store values whose length might grow during the execution (runtime) of your program [@jenny2022].
 
 Lengths that grow during runtime are intrinsically associated with "runtime known" type of values.
 In other words, if you have an object whose length might grow during runtime, then, the length
-of this object becomes not known at compile time. If the length is not known at compile-time,
+of this object becomes not known at compile-time. If the length is not known at compile-time,
 the value of this object also becomes not known at compile-time.
 These types of objects should be stored in the heap memory space, which is
 a dynamic memory space, which can grow or shrink to fit the size of your objects.
@@ -382,7 +382,7 @@ object you declare is stored:
 
 1. every literal value (such as `"this is string"`, `10`, or `true`) is stored in the global data section.
 1. every constant object (`const`) whose value **is known at compile-time** is also stored in the global data section.
-1. every object (constant or not) whose length/size **is known at compile time** is stored in the stack space for the current scope.
+1. every object (constant or not) whose length/size **is known at compile-time** is stored in the stack space for the current scope.
 1. if an object is created with the method `alloc()` or `create()` of an allocator object, this object is stored in the memory space used by this particular allocator object. Most of allocators available in Zig use the heap memory, so, this object is likely stored in the heap (`FixedBufferAllocator()` is an exception to that).
 1. the heap can only be accessed through allocators. If your object was not created through the `alloc()` or `create()` methods of an allocator object, then, he is most certainly not an object stored in the heap.
 
