@@ -496,7 +496,7 @@ allocators available in the standard library:
 - `c_allocator()` (requires you to link to libc).
 
 
-Each allocator have its own perks and limitations. All allocators, except `FixedBufferAllocator()` and `ArenaAllocator()`,
+Each allocator has its own perks and limitations. All allocators, except `FixedBufferAllocator()` and `ArenaAllocator()`,
 are allocators that use the heap memory. So any memory that you allocate with
 these allocators, will be placed in the heap.
 
@@ -581,7 +581,7 @@ free all the memory you allocated over these 5 calls at once, by simply calling 
 If you give, for example, a `GeneralPurposeAllocator()` object as input to the `ArenaAllocator()` constructor, like in the example below, then, the allocations
 you perform with `alloc()` will actually be made with the underlying object `GeneralPurposeAllocator()` that was passed.
 So, with an arena allocator, any new memory you ask for is allocated by the child allocator. The only thing that an arena allocator
-really do is helping you to free all the memory you allocated multiple times with just a single command. In the example
+really does is helping you to free all the memory you allocated multiple times with just a single command. In the example
 below, I called `alloc()` 3 times. So, if I did not used an arena allocator, then, I would need to call
 `free()` 3 times to free all the allocated memory.
 
